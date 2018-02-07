@@ -3,7 +3,8 @@ import json
 import sys
 import requests
 import secret_data # file that contains OAuth credentials
-# import nltk # uncomment line after you install nltk
+import nltk # uncomment line after you install nltk
+from nltk.corpus import stopwords
 
 ## SI 206 - HW
 ## COMMENT WITH:
@@ -34,11 +35,25 @@ base_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
 params = {'screen_name':username, 'count':num_tweets}
 json_file = requests.get(base_url, params, auth = auth).text
 # not necessary for rest of hw ##############
-with open('tweet.json', 'w') as outfile:
-    json.dump(json_file, outfile, indent=4)
+#with open('tweet.json', 'w') as outfile:
+#    json.dump(json_file, outfile, indent=4)
 #############################################
 
 #Code for Part 2:Analyze Tweets
+all_tweet_text = ""
+json_data = json.loads(json_file)
+for json_item in json_data:
+    all_tweet_text += (" " + json_item['text'])
+
+tokens = nltk.word_tokenize(all_tweet_text)
+freqDist = nltk.FreqDist(token for token in tokens if token.isalpha()
+                            and token not in stopwords.words('english')
+                            and "http" not in token
+                            and "https" not in token
+                            and "RT" not in token)
+
+for word, frequency in freqDist.most_common(5):
+    print(word + " " + str(frequency))
 
 
 
