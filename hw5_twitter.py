@@ -30,6 +30,13 @@ requests.get(url, auth=auth)
 #Finish parts 1 and 2 and then come back to this
 
 #Code for Part 1:Get Tweets
+base_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
+params = {'screen_name':username, 'count':num_tweets}
+json_file = requests.get(base_url, params, auth = auth).text
+# not necessary for rest of hw ##############
+with open('tweet.json', 'w') as outfile:
+    json.dump(json_file, outfile, indent=4)
+#############################################
 
 #Code for Part 2:Analyze Tweets
 
