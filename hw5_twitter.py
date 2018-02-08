@@ -12,8 +12,12 @@ from nltk.corpus import stopwords
 ## Any names of people you worked with on this assignment:
 
 #usage should be python3 hw5_twitter.py <username> <num_tweets>
-username = sys.argv[1]
-num_tweets = sys.argv[2]
+try:
+    username = sys.argv[1]
+    num_tweets = sys.argv[2]
+except:
+    username = input('Username to look up > ')
+    num_tweets = input('Number of tweets to look at > ')
 
 consumer_key = secret_data.CONSUMER_KEY
 consumer_secret = secret_data.CONSUMER_SECRET
