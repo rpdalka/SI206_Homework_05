@@ -11,6 +11,10 @@ from nltk.corpus import stopwords
 ## Your section day/time:
 ## Any names of people you worked with on this assignment:
 
+## Set PART1 to True if testing part 1
+PART1 = False
+## Set PART3 to True if testing part 3
+PART3 = True
 #usage should be python3 hw5_twitter.py <username> <num_tweets>
 try:
     username = sys.argv[1]
@@ -34,7 +38,7 @@ requests.get(url, auth=auth)
 #Code for Part 3:Caching
 #Finish parts 1 and 2 and then come back to this
 
-CACHE_FNAME = "tweet.json"
+CACHE_FNAME = "twitter_cache.json"
 try:
     cache_file = open(CACHE_FNAME, 'r')
     cache_contents = cache_file.read()
@@ -63,15 +67,21 @@ print('USER:', username)
 print('TWEETS ANALYZED:', num_tweets)
 base_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
 params = {'screen_name':username, 'count':num_tweets}
-# not necessary for rest of hw ##############
-#json_file = requests.get(base_url, params, auth = auth).text
-#with open('tweet.json', 'w') as outfile:
-#    json.dump(json_file, outfile, indent=4)
+
+if PART1 == True:## If running part 1
+    json_file = requests.get(base_url, params, auth = auth).text
+    with open('tweet.json', 'w') as outfile:
+        json.dump(json_file, outfile, indent=4)
 #############################################
 
 #Code for Part 2:Analyze Tweets
 all_tweet_text = ""
-json_data = get_request(base_url, params)
+if PART3 == True: ## If running part 3
+    json_data = get_request(base_url, params)
+
+elif PART1 == True: ## If running part 1
+    json_data = json.loads(json_file)
+
 for json_item in json_data:
     all_tweet_text += (" " + json_item['text'])
 
